@@ -27,13 +27,30 @@ Flag: `flag{Wh4t_4_tr4sh_4r3_y0u?}`
 ## Zzzzzip
 提示：明明用 <font color="red">file flag</font>就是說 <font color="red">zip</font> 啊，啊怎麼不能 <font color="red">unzip</font>？
 
-我不會做，還沒做出來
+`flag`是一個zip檔，直接`unzip`卻出錯
 
 ```bash
-orphan@box:~$ 
+orphan@box:~$ file flag
+flag: Zip archive data, at least v1.0 to extract
+orphan@box:~$ unzip flag
+Archive: flag 
+unzip: can't stat 'flag/': Not a directory
+```
+
+根據Chatgpt的說明是：壓縮檔裡最上層有個資料夾叫 `flag/`，但你目前目錄裡已經有一個同名的檔案 `flag`（就是那個 zip 自己）。`unzip` 想建立 `./flag/` 這個資料夾時，發現同名的是「一般檔案而不是資料夾」，就報錯了。  
+所以把內容`unzip`到一個新的資料夾就能避開同名衝突
 
 ```
-Flag: 
+orphan@box:~$ mkdir out
+orphan@box:~$ unzip flag -d out
+Archive: flag
+   creating: flag/
+  inflating: flag/flag
+orphan@box:~$ cat out/flag/flag
+flag{why_d0_my_p4r3nts_h4v3_th3_s4m3_n4m3_4s_m3?}
+```
+
+Flag: `flag{why_d0_my_p4r3nts_h4v3_th3_s4m3_n4m3_4s_m3?}`
 
 ---
 
